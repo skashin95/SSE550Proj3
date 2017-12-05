@@ -23,7 +23,7 @@ namespace VehicleDefence.Model
             this.Score = score;
         }
         
-        public override Move (Direction aircraftDirection)
+        public override void Move (Direction aircraftDirection)
         {
             switch (aircraftDirection)
                 {
