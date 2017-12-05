@@ -103,7 +103,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Folder Include="View\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -125,10 +124,17 @@
     <Compile Include="Model\Player.cs" />
     <Compile Include="Model\Shot.cs" />
     <Compile Include="Model\ShotMovedEventArgs.cs" />
-    <Compile Include="Model\VehicleChangedEventArgs.cs" />
+    <Compile Include="Model\MilitaryVehicleChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\BooleanVisibilityConverter.cs" />
     <Compile Include="ViewModel\InvaderViewModel.cs" />
+    <Compile Include="View\AircraftsHelper.cs" />
+    <Compile Include="View\AircraftsPage.xaml.cs">
+      <DependentUpon>AircraftsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AnimatedImage.xaml.cs">
+      <DependentUpon>AnimatedImage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -150,6 +156,14 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AircraftsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AnimatedImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
