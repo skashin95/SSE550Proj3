@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace VehicleDefence.Model
 {
-    class AircraftType
+    enum AircraftType
     {
+        Helicopter,
+        FighterJet,
+        Blimp,
+        CargoPlane                
     }
 }
