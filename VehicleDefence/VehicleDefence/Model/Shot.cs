@@ -12,7 +12,7 @@ namespace VehicleDefence.Model
     {
         public const double ShotPixelsPerSecond = 100;
         public Point Location { get; private set; }
-        public static Size ShotSize = new Size(2, 10);
+        public Size ShotSize = new Size(2, 10);
         public Direction Direction { get; private set; }
         private DateTime _lastMoved;
 

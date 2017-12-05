@@ -11,6 +11,6 @@ namespace VehicleDefence.Model
         Helicopter,
         FighterJet,
         Blimp,
-        CargoPlane                
+        CargoPlane,                
     }
 }

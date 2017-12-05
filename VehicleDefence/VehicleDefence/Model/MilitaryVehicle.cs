@@ -18,5 +18,6 @@ namespace VehicleDefence.Model
             Location = location;
             Size = size;
         }
+        public abstract void Move(Direction direction);
     }
 }
