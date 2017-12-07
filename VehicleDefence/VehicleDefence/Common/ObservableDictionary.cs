@@ -5,10 +5,6 @@ using Windows.Foundation.Collections;
 
 namespace VehicleDefence.Common
 {
-    /// <summary>
-    /// Implementation of IObservableMap that supports reentrancy for use as a default view
-    /// model.
-    /// </summary>
     public class ObservableDictionary : IObservableMap<string, object>
     {
         private class ObservableDictionaryChangedEventArgs : IMapChangedEventArgs<string>

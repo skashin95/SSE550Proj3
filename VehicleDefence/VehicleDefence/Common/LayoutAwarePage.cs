@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -16,7 +17,7 @@ namespace VehicleDefence.Common
     [Windows.Foundation.Metadata.WebHostHidden]
     class LayoutAwarePage : Page
     {
-        public static readonly DependencyProperty DefaultViewModelProperty = DependencyProperty.Register("DefaultViewModel", typeof(IObservableMap<String, Object), typeof(LayoutAwarePage), null);
+        public static readonly DependencyProperty DefaultViewModelProperty = DependencyProperty.Register("DefaultViewModel", typeof(IObservableMap<String, Object>), typeof(LayoutAwarePage), null);
         private List<Control> _layoutAwareControls;
 
         public LayoutAwarePage()
@@ -39,6 +40,56 @@ namespace VehicleDefence.Common
                 Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated -= CoreDispatcher_AcceleratorKeyActivated;
                 Window.Current.CoreWindow.PointerPressed -= this.CoreWindow_PointerPressed;
             };
+        }
+
+        private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
+        {
+ 	        var properties = args.CurrentPoint.Properties;
+
+            if (properties.IsLeftButtonPressed || properties.IsRightButtonPressed ||
+                properties.IsMiddleButtonPressed) return;
+
+            bool backPressed = properties.IsXButton1Pressed;
+            bool forwardPressed = properties.IsXButton2Pressed;
+            if (backPressed ^ forwardPressed)
+            {
+                args.Handled = true;
+                if (backPressed) this.GoBack(this, new RoutedEventArgs());
+                if (forwardPressed) this.GoForward(this, new RoutedEventArgs());
+            }
+        }
+
+        private void CoreDispatcher_AcceleratorKeyActivated(CoreDispatcher sender,
+            AcceleratorKeyEventArgs args)
+        {
+            var virtualKey = args.VirtualKey;
+
+            if ((args.EventType == CoreAcceleratorKeyEventType.SystemKeyDown ||
+                args.EventType == CoreAcceleratorKeyEventType.KeyDown) &&
+                (virtualKey == VirtualKey.Left || virtualKey == VirtualKey.Right ||
+                (int)virtualKey == 166 || (int)virtualKey == 167))
+            {
+                var coreWindow = Window.Current.CoreWindow;
+                var downState = CoreVirtualKeyStates.Down;
+                bool menuKey = (coreWindow.GetKeyState(VirtualKey.Menu) & downState) == downState;
+                bool controlKey = (coreWindow.GetKeyState(VirtualKey.Control) & downState) == downState;
+                bool shiftKey = (coreWindow.GetKeyState(VirtualKey.Shift) & downState) == downState;
+                bool noModifiers = !menuKey && !controlKey && !shiftKey;
+                bool onlyAlt = menuKey && !controlKey && !shiftKey;
+
+                if (((int)virtualKey == 166 && noModifiers) ||
+                    (virtualKey == VirtualKey.Left && onlyAlt))
+                {
+                    args.Handled = true;
+                    this.GoBack(this, new RoutedEventArgs());
+                }
+                else if (((int)virtualKey == 167 && noModifiers) ||
+                    (virtualKey == VirtualKey.Right && onlyAlt))
+                {
+                    args.Handled = true;
+                    this.GoForward(this, new RoutedEventArgs());
+                }
+            }
         }
 
         public IObservableMap<String, Object> DefaultViewModel
@@ -76,14 +127,14 @@ namespace VehicleDefence.Common
             var virtualKey = args.VirtualKey;
             
             if((args.EventType == CoreAcceleratorKeyEventType.SystemKeyDown || args.EventType == CoreAcceleratorKeyEventType.KeyDown)
-                && (virtualKey == args.VirtualKey.Left || virtualKey == VirtualKey.Right || (int)virtualKey == 166
+                && (virtualKey == VirtualKey.Left || virtualKey == VirtualKey.Right || (int)virtualKey == 166
                 || (int)virtualKey == 167))
             {
                 var coreWindow = Window.Current.CoreWindow;
                 var downState = CoreVirtualKeyStates.Down;
                 bool menuKey = (coreWindow.GetKeyState(VirtualKey.Menu) & downState) == downState;
                 bool controlKey = (coreWindow.GetKeyState(VirtualKey.Control) & downState) == downState;
-                bool shiftKey = (coreWindow.GetKeyState(VirtualKey) & downState) == downState;
+                bool shiftKey = (coreWindow.GetKeyState(VirtualKey.Shift) & downState) == downState;
                 bool noModifiers = !menuKey && !controlKey && !shiftKey;
                 bool onlyAlt = menuKey && !controlKey && !shiftKey;
 

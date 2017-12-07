@@ -9,6 +9,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.ApplicationModel;
 
 namespace VehicleDefence.Common
 {
@@ -34,15 +35,15 @@ namespace VehicleDefence.Common
             {
                 foreach(var weakFrameReference in _registeredFrames)
                 {
-                    weakFrameReference frame;
+                    Frame frame;
                     if (weakFrameReference.TryGetTarget(out frame))
                     {
-                        SaveFrameNaviationState(frame);
+                        SaveFrameNavigationState(frame);
                     }
                 }
 
                 MemoryStream sessionData = new MemoryStream();
-                DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string,object>, _knownTypes);
+                DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string,object>), _knownTypes);
                 serializer.WriteObject(sessionData, _sessionState);
 
                 StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(sessionStateFilename, CreationCollisionOption.ReplaceExisting);
@@ -53,7 +54,7 @@ namespace VehicleDefence.Common
                     await fileStream.FlushAsync();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new SuspensionManagerException(e);
             }
@@ -68,7 +69,7 @@ namespace VehicleDefence.Common
                 StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(sessionStateFilename);
                 using(IInputStream inStream = await file.OpenSequentialReadAsync())
                 {
-                    DataContractSerializer serialzer = new DataContractSerializer(typeof(Dictionary<string,object), _knownTypes);
+                    DataContractSerializer serialzer = new DataContractSerializer(typeof(Dictionary<string,object>), _knownTypes);
                     _sessionState = (Dictionary<string,object>)serialzer.ReadObject(inStream.AsStreamForRead());
                 }
 
@@ -141,6 +142,15 @@ namespace VehicleDefence.Common
                 frame.SetValue(FrameSessionStateProperty, frameState);
             }
             return frameState;
+        }
+
+        private static void RestoreFrameNavigationState(Frame frame)
+        {
+            var frameState = SessionStateForFrame(frame);
+            if (frameState.ContainsKey("Navigation"))
+            {
+                frame.SetNavigationState((String)frameState["Navigation"]);
+            }
         }
 
         private static void SaveFrameNavigationState(Frame frame)
