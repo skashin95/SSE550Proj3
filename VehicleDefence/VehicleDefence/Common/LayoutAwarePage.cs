@@ -12,6 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
+
 namespace VehicleDefence.Common
 {
     [Windows.Foundation.Metadata.WebHostHidden]
@@ -116,39 +117,10 @@ namespace VehicleDefence.Common
         {
             if(this.Frame != null && this.Frame.CanGoBack) this.Frame.GoBack();
         }
-        
+
         protected virtual void GoForward(object sender, RoutedEventArgs e)
         {
-            if(this.Frame != null && this.Frame.CanGoForward) this.Frame.GoForward();
-        }
-
-        private void CoreDispatcher_AcceleratorKeyActivated(CoreDispathcer sender, AcceleratorKeyEventArgs args)
-        {
-            var virtualKey = args.VirtualKey;
-            
-            if((args.EventType == CoreAcceleratorKeyEventType.SystemKeyDown || args.EventType == CoreAcceleratorKeyEventType.KeyDown)
-                && (virtualKey == VirtualKey.Left || virtualKey == VirtualKey.Right || (int)virtualKey == 166
-                || (int)virtualKey == 167))
-            {
-                var coreWindow = Window.Current.CoreWindow;
-                var downState = CoreVirtualKeyStates.Down;
-                bool menuKey = (coreWindow.GetKeyState(VirtualKey.Menu) & downState) == downState;
-                bool controlKey = (coreWindow.GetKeyState(VirtualKey.Control) & downState) == downState;
-                bool shiftKey = (coreWindow.GetKeyState(VirtualKey.Shift) & downState) == downState;
-                bool noModifiers = !menuKey && !controlKey && !shiftKey;
-                bool onlyAlt = menuKey && !controlKey && !shiftKey;
-
-                if(((int)virtualKey == 166 && noModifiers) || (virtualKey == VirtualKey.Left && onlyAlt))
-                {
-                    args.Handled = true;
-                    this.GoBack(this, new RoutedEventArgs());
-                }
-                else if(((int)virtualKey == 167 && noModifiers) || (virtualKey == VirtualKey.Right && onlyAlt))
-                {
-                    args.Handled = true;
-                    this.GoForward(this, new RoutedEventArgs());
-                }
-            }
+            if (this.Frame != null && this.Frame.CanGoForward) this.Frame.GoForward();
         }
 
         private void CoreWIndow_PointerPressed(CoreWindow sender, PointerEventArgs args)
@@ -177,7 +149,9 @@ namespace VehicleDefence.Common
                 Window.Current.SizeChanged += this.WindowSizeChanged;
                 this._layoutAwareControls = new List<Control>();
             }
-            VisualStateManager.GoToState(control, DetermineVisualState(ApplicationView), false);
+            this._layoutAwareControls.Add(control);
+
+            VisualStateManager.GoToState(control, DetermineVisualState(ApplicationView.Value), false);
         }
 
         private void WindowSizeChanged(object sender, WindowSizeChangedEventArgs e)
