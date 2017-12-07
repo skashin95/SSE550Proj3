@@ -283,7 +283,60 @@ namespace VehicleDefence.Common
                 }
             }
 
-            
+            public ICollection<K> Keys
+            {
+                get { return this._dictionary.Keys; }
+            }
+
+            public bool ContainsKeys(K key)
+            {
+                return this._dictionary.ContainsKey(key);
+            }
+
+            public bool TryGetValue(K key, out V value)
+            {
+                return this._dictionary.TryGetValue(key, out value);
+            }
+
+            public ICollection<V> Values
+            {
+                get { return this._dictionary.Values; }
+            }
+
+            public bool Contains(KeyValuePair<K,V> item)
+            {
+                return this._dictionary.Contains(item);
+            }
+
+            public int Count
+            {
+                get { return this._dictionary.Count; }
+            }
+
+            public bool IsReadOnly
+            {
+                get {return false;}
+            }
+
+            public IEnumerator<KeyValuePair<K,V>> GetEnumerator()
+            {
+                return this._dictionary.GetEnumerator();
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this._dictionary.GetEnumerator();
+            }
+            public void CopyTo(KeyValuePair<K,V>[] array, int arrayIndex)
+            {
+                int arraySize = array.Length;
+                foreach(var pair in this._dictionary)
+                {
+                    if(arrayIndex >= arraySize) break;
+                    array[arrayIndex++] = pair;
+                }
+                
+            }
         }
     }
 }
