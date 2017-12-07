@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Data;
 
 namespace VehicleDefence.Common
 {
-    class BooleanNegativeConverter
+    public sealed class BooleanNegativeConverter: IValueConverter
     {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return !(value is bool && (bool)value);
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, string languate)
+        {
+            return !(value is bool && (bool)value);
+        }
     }
 }
