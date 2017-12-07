@@ -21,7 +21,11 @@ namespace VehicleDefence.View
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class AnimatedImage : Page
+    /// 
+    using Windows.UI.Xaml.Media.Animation;
+    using Windows.UI.Xaml.Media.Imaging;
+
+    public sealed partial class AnimatedImage : UserControl
     {
 
         private NavigationHelper navigationHelper;
@@ -30,6 +34,59 @@ namespace VehicleDefence.View
         /// <summary>
         /// This can be changed to a strongly typed view model.
         /// </summary>
+        /// 
+
+        public AnimatedImage()
+        {
+            this.InitializeComponent();
+        }
+
+        public AnimatedImage(IEnumerable<string> imageNames, TimeSpan interval) : this()
+        {
+            StartAnimation(imageNames, interval);
+        }
+
+        public void StartAnimation(IEnumerable<string> imageNames, TimeSpan interval )
+        {
+            Storyboard storyboard = new Storyboard();
+            ObjectAnimationUsingKeyFrames animation = new ObjectAnimationUsingKeyFrames();
+            Storyboard.SetTarget(animation, image);
+            Storyboard.SetTargetProperty(animation, "Source");
+
+            TimeSpan currentInteval = TimeSpan.FromMilliseconds(0);
+            foreach (string imageName in imageNames)
+            {
+                ObjectKeyFrame keyFrame = new DiscreteObjectKeyFrame();
+                keyFrame.Value = AircraftsHelper.CreateImageFromAssets(imageName);
+                keyFrame.KeyTime = currentInteval;
+                animation.KeyFrames.Add(keyFrame);
+                currentInteval = currentInteval.Add(interval);
+            }
+
+            storyboard.RepeatBehavior = RepeatBehavior.Forever;
+            storyboard.AutoReverse = true;
+            storyboard.Children.Add(animation);
+            storyboard.Begin();
+        }
+
+        public void AircraftShot()
+        {
+            aircraftShotStoryboard.Begin();
+        }
+
+        public void StartFlashing()
+        {
+            flashStoryboard.Begin();
+        }
+
+        public void StopFlashing()
+        {
+            flashStoryboard.Stop();
+        }
+
+        }
+
+/*
         public ObservableDictionary DefaultViewModel
         {
             get { return this.defaultViewModel; }
@@ -102,5 +159,6 @@ namespace VehicleDefence.View
         }
 
         #endregion
+ */
     }
-}
+

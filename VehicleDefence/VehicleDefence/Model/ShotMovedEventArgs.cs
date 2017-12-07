@@ -13,7 +13,7 @@ namespace VehicleDefence.Model
         public Shot Shot { get; private set; }
         public bool Disappeared  { get; private set; }
         
-        pubic ShotMovedEventArgs (Shot shot, bool disappeared0
+        public ShotMovedEventArgs (Shot shot, bool disappeared)
         {
             Shot = shot;
             Disappeared = disappeared;

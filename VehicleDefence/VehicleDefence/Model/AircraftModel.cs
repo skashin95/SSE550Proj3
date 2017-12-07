@@ -31,14 +31,12 @@ namespace VehicleDefence.Model
         private readonly List<Shot> _playerShots = new List<Shot>();
         private readonly List<Shot> _aircraftShots = new List<Shot>();
         
-        private Direction _invaderDirection = Direction.Left;
+        private Direction _aircraftDirection = Direction.Left;
         private bool _justMovedDown = false;
         
         private DateTime _lastUpdated = DateTime.MinValue;
         
-        public event EventHandler VehicleChanged;        
-        public event EventHandler ShotMoved;
-        
+                
         public AircraftModel()
         {
             EndGame();
@@ -52,15 +50,26 @@ namespace VehicleDefence.Model
         public void StartGame()
         {
             GameOver = false;
-            
-            // Clear collections
-            _aircrafts.Clear();     
+         
+
+            foreach (Aircraft aircraft in _aircrafts)
+                OnMilitaryVehicleChanged(aircraft, true);
+            _aircrafts.Clear();
+
+            foreach (Shot shot in _playerShots)
+                OnShotMoved(shot, true);
             _playerShots.Clear();
             _aircraftShots.Clear();
-            
 
             
-            // Add from page 815
+            _player = new Player();
+            OnMilitaryVehicleChanged(_player, false);
+
+            Lives = 2;
+            Wave = 0;
+
+            NextWave();
+                        
         }
         
         public void FireShot()
@@ -77,20 +86,20 @@ namespace VehicleDefence.Model
                 Point shotLocation = new Point(_player.Location.X + _player.Area.Width / 2, _player.Location.Y);
                 Shot shot = new Shot(shotLocation, Direction.Up);
                 _playerShots.Add(shot);
-                onShotMoved(shot, false);
+                OnShotMoved(shot, false);
             }
         }
         
-        public void MovePlayer()
+        public void MovePlayer(Direction direction)
         {
             // Write after Player class is done
             if (_playerDied.HasValue) return;
             _player.Move(direction);
             // TODO need to check if this needs to be vehical, aircraft, or military vehicle
-            OnVehicleChanged(_player, false);
+            OnMilitaryVehicleChanged(_player, false);
         }
         
-        public void Update()
+        public void Update(bool paused)
         {
             if(!paused)
             {
@@ -107,7 +116,7 @@ namespace VehicleDefence.Model
                 {
                     _playerDied = null;
                     // TODO need to check if this needs to be vehical, aircraft, or military vehicle
-                    OnAircraftChanged(_player, false);
+                    OnMilitaryVehicleChanged(_player, false);
                 }
             }
         }
@@ -144,36 +153,190 @@ namespace VehicleDefence.Model
                     switch (row)
                     {
                         case 0:
-                            
-                    }
+                            aircraft = new Aircraft(AircraftType.Blimp, location, 50);
+                            break;
+                        case 1:
+                             aircraft = new Aircraft(AircraftType.CargoPlane, location, 40);
+                            break;
+                        case 2: 
+                             aircraft = new Aircraft(AircraftType.Helicopter, location, 30);
+                            break;
+                        default:
+                             aircraft = new Aircraft(AircraftType.FighterJet, location, 10);
+                            break;                  
+                     }
+                    _aircrafts.Add(aircraft);
+                    OnMilitaryVehicleChanged(aircraft, false);
                 }
         }
         
         public void CheckForPlayerCollisions()
         {
-            
+            bool removeAllShots = false;
+            var result = from aircraft in _aircrafts where aircraft.Area.Bottom > _player.Area.Top + _player.Size.Height select aircraft;
+            if (result.Count() > 0)
+                EndGame();
+
+            var shotsHit =
+                from shot in _playerShots
+                where shot.Direction == Direction.Down && _player.Area.Contains(shot.Location)
+                select shot;
+            if (shotsHit.Count() > 0)
+            {
+                Lives--;
+                if (Lives >= 0)
+                {
+                    _playerDied = DateTime.Now;
+                    OnMilitaryVehicleChanged(_player, true);
+                    removeAllShots = true;
+                }
+                else
+                    EndGame();
+            }
+            if (removeAllShots)
+                foreach (Shot shot in _playerShots.ToList())
+                {
+                    _playerShots.Remove(shot);
+                    OnShotMoved(shot, true);
+                }
         }
-        
-        
+
+
         public void CheckForAircraftCollisions()
         {
-            
+
+            List<Shot> shotsHit = new List<Shot>();
+            List<Aircraft> aircraftsKilled = new List<Aircraft>();
+            foreach (Shot shot in _playerShots)
+            {
+                var result = from aircraft in _aircrafts
+                             where aircraft.Area.Contains(shot.Location) == true && shot.Direction == Direction.Up
+                             select new { AircraftKilled = aircraft, ShotHit = shot };
+                if (result.Count() > 0)
+                {
+                    foreach (var o in result)
+                    {
+                        shotsHit.Add(o.ShotHit);
+                        aircraftsKilled.Add(o.AircraftKilled);
+                    }
+                }
+            }
+
+            foreach (Aircraft aircraft in aircraftsKilled)
+            {
+                Score += aircraft.Score;
+                _aircrafts.Remove(aircraft);
+                OnMilitaryVehicleChanged(aircraft, true);
+            }
+
+            foreach (Shot shot in shotsHit)
+            {
+                _playerShots.Remove(shot);
+                OnShotMoved(shot, true);
+            }
         }
+            
         
         public void MoveAircrafts()
         {
-            
+            double millisecondsBetweenMovements = Math.Min(10 - Wave, 1) * (2 * _aircrafts.Count());
+            if (DateTime.Now - _lastUpdated > TimeSpan.FromMilliseconds(millisecondsBetweenMovements))
+            {
+                _lastUpdated = DateTime.Now;
+
+                var aircraftsTouchingLeftBoundary = from aircraft in _aircrafts where aircraft.Area.Left < Aircraft.HorizontalInterval select aircraft;
+                var aircraftsTouchingRightBoundary = from aircraft in _aircrafts where aircraft.Area.Right > PlayAreaSize.Width - (Aircraft.HorizontalInterval * 2) select aircraft;
+
+                if (!_justMovedDown)
+                {
+                    if (aircraftsTouchingLeftBoundary.Count() > 0)
+                    {
+                        foreach (Aircraft aircraft in _aircrafts)
+                        {
+                            aircraft.Move(Direction.Down);
+                            OnMilitaryVehicleChanged(aircraft, false);
+                        }
+                        _aircraftDirection = Direction.Right;
+                    }
+                    else if (aircraftsTouchingRightBoundary.Count() > 0)
+                    {
+                        foreach (Aircraft aircraft in _aircrafts)
+                        {
+                            aircraft.Move(Direction.Down);
+                            OnMilitaryVehicleChanged(aircraft, false);
+                        }
+                        _aircraftDirection = Direction.Left;
+                    }
+                    _justMovedDown = true;
+                }
+                else
+                {
+                    _justMovedDown = false;
+                    foreach (Aircraft aircraft in _aircrafts)
+                    {
+                        aircraft.Move(_aircraftDirection);
+                        OnMilitaryVehicleChanged(aircraft, false);
+                    }
+                }
+            }
         }
         
         public void ReturnFire()
         {
-            
+            if (_aircrafts.Count() == 0) return;
+
+            var aircraftsShots =
+                from Shot shot in _playerShots
+                where shot.Direction == Direction.Down
+                select shot;
+
+            if (aircraftsShots.Count() > Wave + 1 || _random.Next(10) < 10 - Wave)
+                return;
+
+            var result =
+                from aircraft in _aircrafts
+                group aircraft by aircraft.Area.X into invaderGroup
+                orderby invaderGroup.Key descending
+                select invaderGroup;
+
+            var randomGroup = result.ElementAt(_random.Next(result.ToList().Count()));
+            var bottomAircraft = randomGroup.Last();
+
+            Point shotLocation = new Point(bottomAircraft.Area.X + bottomAircraft.Area.Width / 2, bottomAircraft.Area.Bottom + 2);
+            Shot aircraftShot = new Shot(shotLocation, Direction.Down);
+            _playerShots.Add(aircraftShot);
+            OnShotMoved(aircraftShot, false);
         }
         
         
         public void UpdateAllMilitaryVehicles()
         {
+            foreach (Shot shot in _playerShots)
+                OnShotMoved(shot, false);
+            foreach (Aircraft vehicle in _aircrafts)
+                OnMilitaryVehicleChanged(vehicle, false);
+            OnMilitaryVehicleChanged(_player, false);
             
         }
+
+        public event EventHandler<MilitaryVehicleChangedEventArgs> MilitaryVehicleChanged;
+
+        protected void OnMilitaryVehicleChanged(MilitaryVehicle vehicleUpdated, bool killed)
+        {
+            EventHandler<MilitaryVehicleChangedEventArgs> vehicleChanged = MilitaryVehicleChanged;
+            if (vehicleChanged != null)
+                vehicleChanged(this, new MilitaryVehicleChangedEventArgs(vehicleUpdated, killed));
+        }
+
+        public event EventHandler<ShotMovedEventArgs> ShotMoved;
+
+        protected void OnShotMoved(Shot shot, bool disappeared)
+        {
+            EventHandler<ShotMovedEventArgs> shotMoved = ShotMoved;
+            if (shotMoved != null)
+                shotMoved(this, new ShotMovedEventArgs(shot, disappeared));
+        }
+
+        
     }
 }
