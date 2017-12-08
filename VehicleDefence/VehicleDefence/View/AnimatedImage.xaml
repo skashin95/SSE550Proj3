@@ -9,6 +9,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+        
 
     <Page.Resources>
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
@@ -27,14 +28,30 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="140"/>
+            <RowDefinition Height="300"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Back button and page title -->
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
+            <Grid.Resources>
+                <Storyboard x:Name="aircraftShotStoryboard">
+                    <DoubleAnimation From="1" To="0" Storyboard.TargetName="image"
+                        Storyboard.TargetProperty="Opacity" Duration="0:0:0.5" />
+                </Storyboard>
+                <Storyboard x:Name="flashStoryboard">
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="image" Storyboard.TargetProperty="Visibility" RepeatBehavior="Forever">
+                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
+                        <DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="Collapsed"/>
+                        <DiscreteObjectKeyFrame KeyTime="0:0:0.8" Value="Visible"/>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </Grid.Resources>
+            <Image x:Name="image" Stretch="Fill"/>
+        </Grid>
+        <Grid>
+        <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Margin="39,59,39,0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"

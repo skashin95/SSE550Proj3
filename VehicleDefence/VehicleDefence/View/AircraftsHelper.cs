@@ -56,7 +56,7 @@ using Windows.UI.Xaml.Shapes;
             AnimatedImage aircraftControl = new AnimatedImage(imageNames, TimeSpan.FromSeconds(.75));
             aircraftControl.Width = aircraft.Size.Width * scale;
             aircraftControl.Height = aircraft.Size.Height * scale;
-            SetCanvaseLocation(aircraftControl, aircraft.Location.X * scale, aircraft.Location.Y * scale);
+            SetCanvasLocation(aircraftControl, aircraft.Location.X * scale, aircraft.Location.Y * scale);
 
             return aircraftControl;
 
@@ -68,7 +68,7 @@ using Windows.UI.Xaml.Shapes;
             rectangle.Fill = new SolidColorBrush(Colors.Yellow);
             rectangle.Width = shot.ShotSize.Width * scale;
             rectangle.Height = shot.ShotSize.Height * scale;
-            SetCanvaseLocation(rectangle, shot.Location.X * scale, shot.Location.Y * scale);
+            SetCanvasLocation(rectangle, shot.Location.X * scale, shot.Location.Y * scale);
             return rectangle;
         }
 
@@ -83,12 +83,12 @@ using Windows.UI.Xaml.Shapes;
             return rectangle;
         }
 
-        internal static PlayerControlFactory(Player player, double scale)
+        internal static FrameworkElement PlayerControlFactory(Player player, double scale)
         {
             AnimatedImage playerControl = new AnimatedImage(new List<string>() {"player.png","player.png"}, TimeSpan.FromSeconds(1));
             playerControl.Width = player.Size.Width * scale;
             playerControl.Height = player.Size.Height * scale;
-            SetCanvaseLocation(playerControl, player.Location.X * scale, player.Location.Y * scale);
+            SetCanvasLocation(playerControl, player.Location.X * scale, player.Location.Y * scale);
             return playerControl;
         }
 
@@ -126,6 +126,14 @@ using Windows.UI.Xaml.Shapes;
             animation.To = to;
             animation.Duration = timeSpan;
             return animation;
+        }
+
+        public static void ResizeElement(FrameworkElement control, double width, double height)
+        {
+            if (control.Width != width)
+                control.Width = width;
+            if (control.Height != height)
+                control.Height = height;
         }
 
         public static BitmapImage CreateImageFromAssets(string imageFilename)
