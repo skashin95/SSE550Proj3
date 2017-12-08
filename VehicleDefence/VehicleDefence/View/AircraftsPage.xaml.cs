@@ -26,7 +26,6 @@ namespace VehicleDefence.View
     /// </summary>
     public sealed partial class AircraftsPage : VehicleDefence.Common.LayoutAwarePage
     {
-
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
@@ -58,46 +57,46 @@ namespace VehicleDefence.View
         void AircraftsPage_CommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
         {
             UICommandInvokedHandler invokeHandler = new UICommandInvokedHandler(AboutInvokeHandler);
-            SettingsCommand aboutCommand = new SettingsCommand("About", "About Invaders", invokeHander);
+            SettingsCommand aboutCommand = new SettingsCommand("About", "About Invaders", invokeHandler);
             args.Request.ApplicationCommands.Add(aboutCommand);
         }
 
-        private void AboutInvokeHander(IUICommand command)
+        private void AboutInvokeHandler(IUICommand command)
         {
-            ViewModel.Paused = true;
+            viewModel.Paused = true;
             aboutPopup.IsOpen = true;
         }
 
         private void CloseAboutPopup(object sender, RoutedEventArgs e)
         {
-            CloseAboutPopup.IsOpen = false;
-            ViewModel.Paused = false;
+            aboutPopup.IsOpen = false;
+            viewModel.Paused = false;
         }
 
-        private LearnButton(object sender, RoutedEventArgs e)
+        private void LearnButton(object sender, RoutedEventArgs e)
         {
             learnMorePopup.IsOpen = true;
         }
 
         private void CloseLearnMorePopup(object sender, RoutedEventArgs e)
         {
-            learMorePopup.IsOpen = false;
+            learnMorePopup.IsOpen = false;
         }
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
         {
-            CloseAboutPopup.IsOpen = false;
-            CloseLearnMorePopup.IsOpen = false;
-            ViewModel.StartGame();
+            aboutPopup.IsOpen = false;
+            learnMorePopup.IsOpen = false;
+            viewModel.StartGame();
             firstTapOfGame = true;
         }
 
-        private void KeyDownHander(object sender, KeyEventArgs e)
+        private void KeyDownHandler(object sender, KeyEventArgs e)
         {
             viewModel.KeyDown(e.VirtualKey);
         }
 
-        private void KeyUpHander(object sender, KeyEventArgs e)
+        private void KeyUpHandler(object sender, KeyEventArgs e)
         {
             viewModel.KeyUp(e.VirtualKey);
         }
@@ -105,7 +104,7 @@ namespace VehicleDefence.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             Window.Current.CoreWindow.KeyDown += KeyDownHandler;
-            Window.Current.CoreWindow.KeyUp += KeyUpHander;
+            Window.Current.CoreWindow.KeyUp += KeyUpHandler;
             base.OnNavigatedTo(e);
         }
 
@@ -119,14 +118,14 @@ namespace VehicleDefence.View
         private void pageRoot_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if(!firstTapOfGame)
-                ViewModel.Tapped();
+                viewModel.Tapped();
 
             firstTapOfGame = false;
         }
 
         private void playArea_Loaded(object sender, RoutedEventArgs e)
         {
-            UpdatePlayAreaSize(playArea_Loaded.RenderSize);
+            UpdatePlayAreaSize(playArea.RenderSize);
         }
 
         private void pageRoot_SizeChanged(Object sender, SizeChangedEventArgs e)

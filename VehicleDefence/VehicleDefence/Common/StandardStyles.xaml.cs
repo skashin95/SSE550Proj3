@@ -16,12 +16,12 @@ using Windows.UI.Xaml.Navigation;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
-namespace VehicleDefence
+namespace VehicleDefence.Common
 {
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class MainPage : VehicleDefence.Common.LayoutAwarePage
+    public sealed partial class StandardStyles : Page
     {
 
         private NavigationHelper navigationHelper;
@@ -45,7 +45,7 @@ namespace VehicleDefence
         }
 
 
-        public MainPage()
+        public StandardStyles()
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);

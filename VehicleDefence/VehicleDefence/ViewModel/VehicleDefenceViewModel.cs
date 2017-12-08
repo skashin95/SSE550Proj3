@@ -14,8 +14,8 @@ namespace VehicleDefence.ViewModel
     using Windows.Foundation;
     using DispatcherTimer = Windows.UI.Xaml.DispatcherTimer;
     using FrameworkElement = Windows.UI.Xaml.FrameworkElement;
-        
-    class InvaderViewModel: INotifyPropertyChanged
+
+    class VehicleDefenceViewModel : INotifyPropertyChanged
     {
         private readonly ObservableCollection<FrameworkElement>
                     _sprites = new ObservableCollection<FrameworkElement>();

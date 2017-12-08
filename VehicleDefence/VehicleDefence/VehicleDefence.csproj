@@ -115,10 +115,10 @@
     <Compile Include="Common\NavigationHelper.cs" />
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
-    <Compile Include="Common\SuspensionManager.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Common\StandardStyles.xaml.cs">
+      <DependentUpon>StandardStyles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Model\Aircraft.cs" />
     <Compile Include="Model\AircraftModel.cs" />
     <Compile Include="Model\AircraftType.cs" />
@@ -130,7 +130,7 @@
     <Compile Include="Model\MilitaryVehicleChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\BooleanVisibilityConverter.cs" />
-    <Compile Include="ViewModel\InvaderViewModel.cs" />
+    <Compile Include="ViewModel\VehicleDefenceViewModel.cs" />
     <Compile Include="View\AircraftsHelper.cs" />
     <Compile Include="View\AircraftsPage.xaml.cs">
       <DependentUpon>AircraftsPage.xaml</DependentUpon>
@@ -156,7 +156,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="Common\StandardStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
