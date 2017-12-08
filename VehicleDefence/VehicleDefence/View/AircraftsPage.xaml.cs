@@ -13,6 +13,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Core;
+using Windows.UI.ApplicationSettings;
+using Windows.UI.Popups;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -48,59 +51,118 @@ namespace VehicleDefence.View
         public AircraftsPage()
         {
             this.InitializeComponent();
-            this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += navigationHelper_LoadState;
-            this.navigationHelper.SaveState += navigationHelper_SaveState;
+
+            SettingsPane.GetForCurrentView().CommandsRequested += AircraftsPage_CommandsRequested;
         }
 
-        /// <summary>
-        /// Populates the page with content passed during navigation. Any saved state is also
-        /// provided when recreating a page from a prior session.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event; typically <see cref="NavigationHelper"/>
-        /// </param>
-        /// <param name="e">Event data that provides both the navigation parameter passed to
-        /// <see cref="Frame.Navigate(Type, Object)"/> when this page was initially requested and
-        /// a dictionary of state preserved by this page during an earlier
-        /// session. The state will be null the first time a page is visited.</param>
-        private void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
+        void AircraftsPage_CommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
         {
+            UICommandInvokedHandler invokeHandler = new UICommandInvokedHandler(AboutInvokeHandler);
+            SettingsCommand aboutCommand = new SettingsCommand("About", "About Invaders", invokeHander);
+            args.Request.ApplicationCommands.Add(aboutCommand);
         }
 
-        /// <summary>
-        /// Preserves state associated with this page in case the application is suspended or the
-        /// page is discarded from the navigation cache.  Values must conform to the serialization
-        /// requirements of <see cref="SuspensionManager.SessionState"/>.
-        /// </summary>
-        /// <param name="sender">The source of the event; typically <see cref="NavigationHelper"/></param>
-        /// <param name="e">Event data that provides an empty dictionary to be populated with
-        /// serializable state.</param>
-        private void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
+        private void AboutInvokeHander(IUICommand command)
         {
+            ViewModel.Paused = true;
+            aboutPopup.IsOpen = true;
         }
 
-        #region NavigationHelper registration
+        private void CloseAboutPopup(object sender, RoutedEventArgs e)
+        {
+            CloseAboutPopup.IsOpen = false;
+            ViewModel.Paused = false;
+        }
 
-        /// The methods provided in this section are simply used to allow
-        /// NavigationHelper to respond to the page's navigation methods.
-        /// 
-        /// Page specific logic should be placed in event handlers for the  
-        /// <see cref="GridCS.Common.NavigationHelper.LoadState"/>
-        /// and <see cref="GridCS.Common.NavigationHelper.SaveState"/>.
-        /// The navigation parameter is available in the LoadState method 
-        /// in addition to page state preserved during an earlier session.
+        private LearnButton(object sender, RoutedEventArgs e)
+        {
+            learnMorePopup.IsOpen = true;
+        }
+
+        private void CloseLearnMorePopup(object sender, RoutedEventArgs e)
+        {
+            learMorePopup.IsOpen = false;
+        }
+
+        private void StartButtonClick(object sender, RoutedEventArgs e)
+        {
+            CloseAboutPopup.IsOpen = false;
+            CloseLearnMorePopup.IsOpen = false;
+            ViewModel.StartGame();
+            firstTapOfGame = true;
+        }
+
+        private void KeyDownHander(object sender, KeyEventArgs e)
+        {
+            viewModel.KeyDown(e.VirtualKey);
+        }
+
+        private void KeyUpHander(object sender, KeyEventArgs e)
+        {
+            viewModel.KeyUp(e.VirtualKey);
+        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            navigationHelper.OnNavigatedTo(e);
+            Window.Current.CoreWindow.KeyDown += KeyDownHandler;
+            Window.Current.CoreWindow.KeyUp += KeyUpHander;
+            base.OnNavigatedTo(e);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        private void pageRoot_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            navigationHelper.OnNavigatedFrom(e);
+            viewModel.LeftGestureCompleted();
+            viewModel.RightGestureCompleted();
         }
 
-        #endregion
+        bool firstTapOfGame = false;
+        private void pageRoot_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if(!firstTapOfGame)
+                ViewModel.Tapped();
+
+            firstTapOfGame = false;
+        }
+
+        private void playArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdatePlayAreaSize(playArea_Loaded.RenderSize);
+        }
+
+        private void pageRoot_SizeChanged(Object sender, SizeChangedEventArgs e)
+        {
+            UpdatePlayAreaSize(new Size(e.NewSize.Width, e.NewSize.Height - 100));
+        }
+
+        private void UpdatePlayAreaSize(Size newPlayAreaSize)
+        {
+            double targetWidth;
+            double targetHeight;
+            if(newPlayAreaSize.Width > newPlayAreaSize.Height)
+            {
+                targetWidth = newPlayAreaSize.Height * 4 / 3;
+                targetHeight = newPlayAreaSize.Height;
+                double leftRightMargin = (newPlayAreaSize.Width - targetWidth) / 2;
+                playArea.Margin = new Thickness(leftRightMargin, 0, leftRightMargin, 0);
+            }
+            else 
+            {
+                targetHeight = newPlayAreaSize.Width * 3 / 4;
+                targetWidth = newPlayAreaSize.Width;
+                double topBottomMargin = (newPlayAreaSize.Height - targetHeight) / 2;
+                playArea.Margin = new Thickness(0, topBottomMargin, 0, topBottomMargin);
+            }
+            playArea.Width = targetWidth;
+            playArea.Height = targetHeight;
+            viewModel.PlayAreaSize = new Size(targetWidth, targetHeight);
+        }
+
+        protected override void LoadState(object navigationParameter, Dictionary<string,object> pageState)
+        {
+        }
+
+        protected override void SaveState(Dictionary<String, Object> pageState)
+        {
+        }
     }
 }
