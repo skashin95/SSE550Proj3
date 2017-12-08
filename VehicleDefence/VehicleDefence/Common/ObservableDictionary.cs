@@ -14,7 +14,6 @@ namespace VehicleDefence.Common
                 this.CollectionChange = change;
                 this.Key = key;
             }
-
             public CollectionChange CollectionChange { get; private set; }
             public string Key { get; private set; }
         }
