@@ -8,7 +8,7 @@ using Windows.Foundation;
 
 namespace VehicleDefence.Model
 {
-    class MilitaryVehicle
+    abstract class MilitaryVehicle
     {
         public Point Location { get; protected set;  }
         public Size Size { get; private set; }

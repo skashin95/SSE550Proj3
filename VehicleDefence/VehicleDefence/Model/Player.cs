@@ -14,9 +14,9 @@ namespace VehicleDefence.Model
         const double PixelsToMove = 10;
 
         public Player()
-            : base(new Point(PlayerSize.Width, AircraftModel.PlayAreaSize.Height - AircraftModel.PlayAreaSize.Height * 3), Player.PlayerSize)
+            : base(new Point(PlayerSize.Width, PlayerSize.Height - PlayerSize.Height * 3), Player.PlayerSize)
         {
-            Location = new Point(Location.X, AircraftModel.PlayerAreaSize.Height - PlayerSize.Height * 3);
+            Location = new Point(Location.X, PlayerSize.Height - PlayerSize.Height * 3);
         }
 
         public override void Move(Direction direction)
@@ -28,7 +28,7 @@ namespace VehicleDefence.Model
                         Location = new Point(Location.X - PixelsToMove, Location.Y);
                     break;
                 default:
-                    if (Location.X < AircraftModel.PlayerAreaSize.Width - PlayerSize.Width * 2)
+                    if (Location.X < PlayerSize.Width - PlayerSize.Width * 2)
                         Location = new Point(Location.X + PixelsToMove, Location.Y);
                     break;
             }

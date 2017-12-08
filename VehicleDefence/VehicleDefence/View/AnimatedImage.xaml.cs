@@ -45,7 +45,7 @@ namespace VehicleDefence.View
             foreach (string imageName in imageNames)
             {
                 ObjectKeyFrame keyFrame = new DiscreteObjectKeyFrame();
-                keyFrame.Value = AircraftsHelper.CreateImageFromAssets(imageName);
+                keyFrame.Value = VehicleDefenceHelper.CreateImageFromAssets(imageName);
                 keyFrame.KeyTime = currentInteval;
                 animation.KeyFrames.Add(keyFrame);
                 currentInteval = currentInteval.Add(interval);

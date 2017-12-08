@@ -115,9 +115,6 @@
     <Compile Include="Common\NavigationHelper.cs" />
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
-    <Compile Include="Common\StandardStyles.xaml.cs">
-      <DependentUpon>StandardStyles.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Model\Aircraft.cs" />
     <Compile Include="Model\AircraftModel.cs" />
@@ -131,12 +128,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\BooleanVisibilityConverter.cs" />
     <Compile Include="ViewModel\VehicleDefenceViewModel.cs" />
-    <Compile Include="View\AircraftsHelper.cs" />
-    <Compile Include="View\AircraftsPage.xaml.cs">
-      <DependentUpon>AircraftsPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="View\VehicleDefenceHelper.cs" />
     <Compile Include="View\AnimatedImage.xaml.cs">
       <DependentUpon>AnimatedImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VehicleDefencePage.xaml.cs">
+      <DependentUpon>VehicleDefencePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -160,11 +157,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AircraftsPage.xaml">
+    <Page Include="View\AnimatedImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AnimatedImage.xaml">
+    <Page Include="View\VehicleDefencePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

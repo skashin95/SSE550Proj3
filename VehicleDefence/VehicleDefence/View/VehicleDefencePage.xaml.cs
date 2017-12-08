@@ -24,7 +24,7 @@ namespace VehicleDefence.View
     /// <summary>
     /// A basic page that provides characteristics common to most applications.
     /// </summary>
-    public sealed partial class AircraftsPage : VehicleDefence.Common.LayoutAwarePage
+    public sealed partial class VehicleDefencePage : VehicleDefence.Common.LayoutAwarePage
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
@@ -47,7 +47,7 @@ namespace VehicleDefence.View
         }
 
 
-        public AircraftsPage()
+        public VehicleDefencePage()
         {
             this.InitializeComponent();
 
@@ -114,10 +114,16 @@ namespace VehicleDefence.View
             viewModel.RightGestureCompleted();
         }
 
+        private void pageRoot_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            viewModel.LeftGestureCompleted();
+            viewModel.RightGestureCompleted();
+        }
+
         bool firstTapOfGame = false;
         private void pageRoot_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if(!firstTapOfGame)
+            if (!firstTapOfGame)
                 viewModel.Tapped();
 
             firstTapOfGame = false;
@@ -137,14 +143,14 @@ namespace VehicleDefence.View
         {
             double targetWidth;
             double targetHeight;
-            if(newPlayAreaSize.Width > newPlayAreaSize.Height)
+            if (newPlayAreaSize.Width > newPlayAreaSize.Height)
             {
                 targetWidth = newPlayAreaSize.Height * 4 / 3;
                 targetHeight = newPlayAreaSize.Height;
                 double leftRightMargin = (newPlayAreaSize.Width - targetWidth) / 2;
                 playArea.Margin = new Thickness(leftRightMargin, 0, leftRightMargin, 0);
             }
-            else 
+            else
             {
                 targetHeight = newPlayAreaSize.Width * 3 / 4;
                 targetWidth = newPlayAreaSize.Width;
@@ -156,7 +162,7 @@ namespace VehicleDefence.View
             viewModel.PlayAreaSize = new Size(targetWidth, targetHeight);
         }
 
-        protected override void LoadState(object navigationParameter, Dictionary<string,object> pageState)
+        protected override void LoadState(object navigationParameter, Dictionary<string, object> pageState)
         {
         }
 

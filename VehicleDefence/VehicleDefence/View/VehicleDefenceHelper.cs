@@ -9,15 +9,15 @@ using Windows.Foundation;
 namespace VehicleDefence.View
 {
     using Model;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Shapes;
+    using Windows.UI;
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Media;
+    using Windows.UI.Xaml.Media.Animation;
+    using Windows.UI.Xaml.Media.Imaging;
+    using Windows.UI.Xaml.Shapes;
 
-    class AircraftsHelper
+    class VehicleDefenceHelper
     {
         private static readonly Random _random = new Random();
 
