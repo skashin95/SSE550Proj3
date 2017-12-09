@@ -26,27 +26,6 @@ namespace VehicleDefence.View
     /// </summary>
     public sealed partial class VehicleDefencePage : VehicleDefence.Common.LayoutAwarePage
     {
-        private NavigationHelper navigationHelper;
-        private ObservableDictionary defaultViewModel = new ObservableDictionary();
-
-        /// <summary>
-        /// This can be changed to a strongly typed view model.
-        /// </summary>
-        public ObservableDictionary DefaultViewModel
-        {
-            get { return this.defaultViewModel; }
-        }
-
-        /// <summary>
-        /// NavigationHelper is used on each page to aid in navigation and 
-        /// process lifetime management
-        /// </summary>
-        public NavigationHelper NavigationHelper
-        {
-            get { return this.navigationHelper; }
-        }
-
-
         public VehicleDefencePage()
         {
             this.InitializeComponent();

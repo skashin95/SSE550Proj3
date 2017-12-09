@@ -9,7 +9,7 @@ namespace VehicleDefence.ViewModel
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Data;
 
-    class BooleanVisibilityConverter
+    class BooleanVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

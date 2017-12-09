@@ -28,8 +28,8 @@ namespace VehicleDefence.View
             {
                 //TODO find all the appropriate pictures for each aircraft type.
                 //TODO name the pictures the appropriate names and make sure they are .png
-                case AircraftType.Blimp:
-                    filename = "blimp";
+                case AircraftType.SonicJet:
+                    filename = "sonicjet";
                     break;
                 case AircraftType.CargoPlane:
                     filename = "cargoplane";
@@ -43,7 +43,7 @@ namespace VehicleDefence.View
                     break;
             }
             List<string> imageList = new List<string>();
-            for (int i = 0; i < 4; i++)
+            for (int i = 1; i <= 4; i++)
             {
                 imageList.Add(filename + i + ".png");
             }

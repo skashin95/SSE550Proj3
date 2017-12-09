@@ -124,7 +124,7 @@ namespace VehicleDefence.VehicleDefence_XamlTypeInfo
 
         private void InitTypeTables()
         {
-            _typeNameTable = new string[17];
+            _typeNameTable = new string[14];
             _typeNameTable[0] = "VehicleDefence.View.AnimatedImage";
             _typeNameTable[1] = "Windows.UI.Xaml.Controls.UserControl";
             _typeNameTable[2] = "VehicleDefence.Common.LayoutAwarePage";
@@ -139,11 +139,8 @@ namespace VehicleDefence.VehicleDefence_XamlTypeInfo
             _typeNameTable[11] = "Windows.Foundation.Size";
             _typeNameTable[12] = "VehicleDefence.ViewModel.BooleanVisibilityConverter";
             _typeNameTable[13] = "VehicleDefence.View.VehicleDefencePage";
-            _typeNameTable[14] = "VehicleDefence.Common.ObservableDictionary";
-            _typeNameTable[15] = "VehicleDefence.Common.NavigationHelper";
-            _typeNameTable[16] = "Windows.UI.Xaml.DependencyObject";
 
-            _typeTable = new global::System.Type[17];
+            _typeTable = new global::System.Type[14];
             _typeTable[0] = typeof(global::VehicleDefence.View.AnimatedImage);
             _typeTable[1] = typeof(global::Windows.UI.Xaml.Controls.UserControl);
             _typeTable[2] = typeof(global::VehicleDefence.Common.LayoutAwarePage);
@@ -158,9 +155,6 @@ namespace VehicleDefence.VehicleDefence_XamlTypeInfo
             _typeTable[11] = typeof(global::Windows.Foundation.Size);
             _typeTable[12] = typeof(global::VehicleDefence.ViewModel.BooleanVisibilityConverter);
             _typeTable[13] = typeof(global::VehicleDefence.View.VehicleDefencePage);
-            _typeTable[14] = typeof(global::VehicleDefence.Common.ObservableDictionary);
-            _typeTable[15] = typeof(global::VehicleDefence.Common.NavigationHelper);
-            _typeTable[16] = typeof(global::Windows.UI.Xaml.DependencyObject);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -200,15 +194,7 @@ namespace VehicleDefence.VehicleDefence_XamlTypeInfo
         private object Activate_7_VehicleDefenceViewModel() { return new global::VehicleDefence.ViewModel.VehicleDefenceViewModel(); }
         private object Activate_12_BooleanVisibilityConverter() { return new global::VehicleDefence.ViewModel.BooleanVisibilityConverter(); }
         private object Activate_13_VehicleDefencePage() { return new global::VehicleDefence.View.VehicleDefencePage(); }
-        private object Activate_14_ObservableDictionary() { return new global::VehicleDefence.Common.ObservableDictionary(); }
         private void MapAdd_4_IObservableMap(object instance, object key, object item)
-        {
-            var collection = (global::System.Collections.Generic.IDictionary<global::System.String, global::System.Object>)instance;
-            var newKey = (global::System.String)key;
-            var newItem = (global::System.Object)item;
-            collection.Add(newKey, newItem);
-        }
-        private void MapAdd_14_ObservableDictionary(object instance, object key, object item)
         {
             var collection = (global::System.Collections.Generic.IDictionary<global::System.String, global::System.Object>)instance;
             var newKey = (global::System.String)key;
@@ -305,29 +291,8 @@ namespace VehicleDefence.VehicleDefence_XamlTypeInfo
             case 13:   //  VehicleDefence.View.VehicleDefencePage
                 userType = new global::VehicleDefence.VehicleDefence_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("VehicleDefence.Common.LayoutAwarePage"));
                 userType.Activator = Activate_13_VehicleDefencePage;
-                userType.AddMemberName("DefaultViewModel");
-                userType.AddMemberName("NavigationHelper");
                 userType.SetIsLocalType();
                 xamlType = userType;
-                break;
-
-            case 14:   //  VehicleDefence.Common.ObservableDictionary
-                userType = new global::VehicleDefence.VehicleDefence_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.DictionaryAdd = MapAdd_14_ObservableDictionary;
-                userType.SetIsReturnTypeStub();
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 15:   //  VehicleDefence.Common.NavigationHelper
-                userType = new global::VehicleDefence.VehicleDefence_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.DependencyObject"));
-                userType.SetIsReturnTypeStub();
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 16:   //  Windows.UI.Xaml.DependencyObject
-                xamlType = new global::VehicleDefence.VehicleDefence_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
             }
             return xamlType;
@@ -379,16 +344,6 @@ namespace VehicleDefence.VehicleDefence_XamlTypeInfo
             var that = (global::VehicleDefence.ViewModel.VehicleDefenceViewModel)instance;
             that.PlayAreaSize = (global::Windows.Foundation.Size)Value;
         }
-        private object get_7_VehicleDefencePage_DefaultViewModel(object instance)
-        {
-            var that = (global::VehicleDefence.View.VehicleDefencePage)instance;
-            return that.DefaultViewModel;
-        }
-        private object get_8_VehicleDefencePage_NavigationHelper(object instance)
-        {
-            var that = (global::VehicleDefence.View.VehicleDefencePage)instance;
-            return that.NavigationHelper;
-        }
 
         private global::Windows.UI.Xaml.Markup.IXamlMember CreateXamlMember(string longMemberName)
         {
@@ -438,18 +393,6 @@ namespace VehicleDefence.VehicleDefence_XamlTypeInfo
                 userType = (global::VehicleDefence.VehicleDefence_XamlTypeInfo.XamlUserType)GetXamlTypeByName("VehicleDefence.ViewModel.VehicleDefenceViewModel");
                 xamlMember = new global::VehicleDefence.VehicleDefence_XamlTypeInfo.XamlMember(this, "PlayAreaSize", "Windows.Foundation.Size");
                 xamlMember.Setter = set_6_VehicleDefenceViewModel_PlayAreaSize;
-                break;
-            case "VehicleDefence.View.VehicleDefencePage.DefaultViewModel":
-                userType = (global::VehicleDefence.VehicleDefence_XamlTypeInfo.XamlUserType)GetXamlTypeByName("VehicleDefence.View.VehicleDefencePage");
-                xamlMember = new global::VehicleDefence.VehicleDefence_XamlTypeInfo.XamlMember(this, "DefaultViewModel", "VehicleDefence.Common.ObservableDictionary");
-                xamlMember.Getter = get_7_VehicleDefencePage_DefaultViewModel;
-                xamlMember.SetIsReadOnly();
-                break;
-            case "VehicleDefence.View.VehicleDefencePage.NavigationHelper":
-                userType = (global::VehicleDefence.VehicleDefence_XamlTypeInfo.XamlUserType)GetXamlTypeByName("VehicleDefence.View.VehicleDefencePage");
-                xamlMember = new global::VehicleDefence.VehicleDefence_XamlTypeInfo.XamlMember(this, "NavigationHelper", "VehicleDefence.Common.NavigationHelper");
-                xamlMember.Getter = get_8_VehicleDefencePage_NavigationHelper;
-                xamlMember.SetIsReadOnly();
                 break;
             }
             return xamlMember;
@@ -776,5 +719,7 @@ namespace VehicleDefence.VehicleDefence_XamlTypeInfo
         }
     }
 }
+
+
 
 

@@ -69,7 +69,7 @@ namespace VehicleDefence.Model
             Wave = 0;
 
             NextWave();
-                        
+                   
         }
         
         public void FireShot()
@@ -153,7 +153,7 @@ namespace VehicleDefence.Model
                     switch (row)
                     {
                         case 0:
-                            aircraft = new Aircraft(AircraftType.Blimp, location, 50);
+                            aircraft = new Aircraft(AircraftType.SonicJet, location, 50);
                             break;
                         case 1:
                              aircraft = new Aircraft(AircraftType.CargoPlane, location, 40);

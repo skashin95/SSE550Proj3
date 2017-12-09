@@ -143,8 +143,25 @@
     <None Include="VehicleDefence_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\cargoplane1.png" />
+    <Content Include="Assets\cargoplane2.png" />
+    <Content Include="Assets\cargoplane3.png" />
+    <Content Include="Assets\cargoplane4.png" />
+    <Content Include="Assets\fighterjet1.png" />
+    <Content Include="Assets\fighterjet2.png" />
+    <Content Include="Assets\fighterjet3.png" />
+    <Content Include="Assets\fighterjet4.png" />
+    <Content Include="Assets\helicopter1.png" />
+    <Content Include="Assets\helicopter2.png" />
+    <Content Include="Assets\helicopter3.png" />
+    <Content Include="Assets\helicopter4.png" />
     <Content Include="Assets\Logo.scale-100.png" />
+    <Content Include="Assets\player.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
+    <Content Include="Assets\sonicjet1.png" />
+    <Content Include="Assets\sonicjet2.png" />
+    <Content Include="Assets\sonicjet3.png" />
+    <Content Include="Assets\sonicjet4.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
   </ItemGroup>
