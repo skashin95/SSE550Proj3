@@ -14,8 +14,8 @@ namespace VehicleDefence.ViewModel
     using Windows.Foundation;
     using DispatcherTimer = Windows.UI.Xaml.DispatcherTimer;
     using FrameworkElement = Windows.UI.Xaml.FrameworkElement;
-        
-    class InvaderViewModel: INotifyPropertyChanged
+
+    class VehicleDefenceViewModel : INotifyPropertyChanged
     {
         private readonly ObservableCollection<FrameworkElement>
                     _sprites = new ObservableCollection<FrameworkElement>();
@@ -88,7 +88,7 @@ namespace VehicleDefence.ViewModel
             _scanLines.Clear();
             for (int y = 0; y < 300; y += 2)
             {
-                FrameworkElement scanLine = AircraftsHelper.ScanLineFactory(y, 400, Scale);
+                FrameworkElement scanLine = VehicleDefenceHelper.ScanLineFactory(y, 400, Scale);
                 _scanLines.Add(scanLine);
                 _sprites.Add(scanLine);
             }
@@ -152,15 +152,15 @@ namespace VehicleDefence.ViewModel
                     Aircraft aircraft = e.MilitaryVehcileUpdated as Aircraft;
                     if (!_aircrafts.ContainsKey(aircraft))
                     {
-                        FrameworkElement aircraftControl = AircraftsHelper.AircraftControlFactory(aircraft, Scale);
+                        FrameworkElement aircraftControl = VehicleDefenceHelper.AircraftControlFactory(aircraft, Scale);
                         _aircrafts[aircraft] = aircraftControl;
                         _sprites.Add(aircraftControl);
                     }
                     else
                     {
                         FrameworkElement aircraftControl = _aircrafts[aircraft];
-                        AircraftsHelper.MoveElementOnCanvas(aircraftControl, aircraft.Location.X * Scale, aircraft.Location.Y * Scale);
-                        AircraftsHelper.ResizeElement(aircraftControl, aircraft.Size.Width * Scale, aircraft.Size.Height * Scale);
+                        VehicleDefenceHelper.MoveElementOnCanvas(aircraftControl, aircraft.Location.X * Scale, aircraft.Location.Y * Scale);
+                        VehicleDefenceHelper.ResizeElement(aircraftControl, aircraft.Size.Width * Scale, aircraft.Size.Height * Scale);
                       
                     }
                 }
@@ -177,13 +177,13 @@ namespace VehicleDefence.ViewModel
                     Player player = e.MilitaryVehcileUpdated as Player;
                     if (_playerControl == null)
                     {
-                        _playerControl = AircraftsHelper.PlayerControlFactory(player, Scale);
+                        _playerControl = VehicleDefenceHelper.PlayerControlFactory(player, Scale);
                         _sprites.Add(_playerControl);
                     }
                     else
                     {
-                        AircraftsHelper.MoveElementOnCanvas(_playerControl, player.Location.X * Scale, player.Location.Y * Scale);
-                        AircraftsHelper.ResizeElement(_playerControl, player.Size.Width * Scale, player.Size.Height * Scale);
+                        VehicleDefenceHelper.MoveElementOnCanvas(_playerControl, player.Location.X * Scale, player.Location.Y * Scale);
+                        VehicleDefenceHelper.ResizeElement(_playerControl, player.Size.Width * Scale, player.Size.Height * Scale);
                     }
                 }
             }
@@ -217,14 +217,14 @@ namespace VehicleDefence.ViewModel
             {
                 if (!_shots.ContainsKey(e.Shot))
                 {
-                    FrameworkElement shotControl = AircraftsHelper.ShotControlFactory(e.Shot, Scale);
+                    FrameworkElement shotControl = VehicleDefenceHelper.ShotControlFactory(e.Shot, Scale);
                     _shots[e.Shot] = shotControl;
                     _sprites.Add(shotControl);
                 }
                 else
                 {
                     FrameworkElement shotControl = _shots[e.Shot];
-                    AircraftsHelper.MoveElementOnCanvas(shotControl, e.Shot.Location.X * Scale, e.Shot.Location.Y * Scale);
+                    VehicleDefenceHelper.MoveElementOnCanvas(shotControl, e.Shot.Location.X * Scale, e.Shot.Location.Y * Scale);
                 }
             }
             else

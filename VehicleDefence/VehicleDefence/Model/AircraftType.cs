@@ -10,7 +10,7 @@ namespace VehicleDefence.Model
     {
         Helicopter,
         FighterJet,
-        Blimp,
+        SonicJet,
         CargoPlane,                
     }
 }

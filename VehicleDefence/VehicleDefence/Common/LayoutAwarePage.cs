@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Navigation;
 namespace VehicleDefence.Common
 {
     [Windows.Foundation.Metadata.WebHostHidden]
-    class LayoutAwarePage : Page
+    public class LayoutAwarePage : Page
     {
         public static readonly DependencyProperty DefaultViewModelProperty = DependencyProperty.Register("DefaultViewModel", typeof(IObservableMap<String, Object>), typeof(LayoutAwarePage), null);
         private List<Control> _layoutAwareControls;
@@ -217,11 +217,11 @@ namespace VehicleDefence.Common
         {
  	        var frameState = SuspensionManager.SessionStateForFrame(this.Frame);
             var pageState = new Dictionary<String, Object>();
-            this.SaveSteate(pageState);
+            this.SaveState(pageState);
             frameState[_pageKey] = pageState;
         }
 
-        private void SaveSteate(Dictionary<String,object> pageState)
+        protected virtual void SaveState(Dictionary<String,object> pageState)
         {
         }
 
@@ -276,7 +276,7 @@ namespace VehicleDefence.Common
                 return false;
             }
 
-            public bool Removed(KeyValuePair<K,V> item)
+            public bool Remove(KeyValuePair<K,V> item)
             {
                 V currentValue;
                 if(this._dictionary.TryGetValue(item.Key, out currentValue) && Object.Equals(item.Value, currentValue)
@@ -313,7 +313,7 @@ namespace VehicleDefence.Common
                 get { return this._dictionary.Keys; }
             }
 
-            public bool ContainsKeys(K key)
+            public bool ContainsKey(K key)
             {
                 return this._dictionary.ContainsKey(key);
             }

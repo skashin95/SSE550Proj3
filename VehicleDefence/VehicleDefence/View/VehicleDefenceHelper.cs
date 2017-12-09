@@ -9,15 +9,15 @@ using Windows.Foundation;
 namespace VehicleDefence.View
 {
     using Model;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Shapes;
+    using Windows.UI;
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Controls;
+    using Windows.UI.Xaml.Media;
+    using Windows.UI.Xaml.Media.Animation;
+    using Windows.UI.Xaml.Media.Imaging;
+    using Windows.UI.Xaml.Shapes;
 
-    class AircraftsHelper
+    class VehicleDefenceHelper
     {
         private static readonly Random _random = new Random();
 
@@ -28,8 +28,8 @@ using Windows.UI.Xaml.Shapes;
             {
                 //TODO find all the appropriate pictures for each aircraft type.
                 //TODO name the pictures the appropriate names and make sure they are .png
-                case AircraftType.Blimp:
-                    filename = "blimp";
+                case AircraftType.SonicJet:
+                    filename = "sonicjet";
                     break;
                 case AircraftType.CargoPlane:
                     filename = "cargoplane";
@@ -43,7 +43,7 @@ using Windows.UI.Xaml.Shapes;
                     break;
             }
             List<string> imageList = new List<string>();
-            for (int i = 0; i < 4; i++)
+            for (int i = 1; i <= 4; i++)
             {
                 imageList.Add(filename + i + ".png");
             }

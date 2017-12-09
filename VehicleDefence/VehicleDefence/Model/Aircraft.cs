@@ -7,11 +7,6 @@ using Windows.Foundation;
 
 namespace VehicleDefence.Model
 {
-<<<<<<< HEAD
-=======
-    using Windows.Foundation;
-    
->>>>>>> ed5a051c62d1cfa80b7075cc621d441c67ceb89b
     class Aircraft : MilitaryVehicle
     {
         public static readonly Size AircraftSize = new Size(15, 15);
