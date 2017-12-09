@@ -46,12 +46,16 @@
                 Grid.Row="1" x:Name="playArea" Loaded="playArea_Loaded">
             <ItemsControl 
                     ItemsSource="{Binding Path=Sprites}" 
-                    Margin="5">
+                    Margin="5" Foreground="#FF1BB5C3">
+                <ItemsControl.Background>
+                    <SolidColorBrush Color="#FF3EA516"/>
+                </ItemsControl.Background>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Canvas Background="Black" />
+                        <Canvas Background="#FF00FAFF" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+                <Image Height="100" Width="100" Source="ms-appx:///Assets/cargoplane1.png"/>
             </ItemsControl>
         </Border>
 
@@ -115,7 +119,7 @@
                         presents...
                     </TextBlock>
 
-                    <TextBlock Grid.Row="1" Text="Invaders" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" Text="Aircrafts" HorizontalAlignment="Center" 
                    FontFamily="Arial Narrow" FontSize="50"
                    Foreground="Yellow" FontWeight="ExtraBold" FontStyle="Italic" Margin="10"
                    />
@@ -130,6 +134,9 @@
                 </StackPanel>
             </StackPanel>
         </Popup>
+        <Image x:Name="fighterjet" HorizontalAlignment="Left" Height="100" Margin="151,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100" RenderTransformOrigin="-1.26,0.5" Source="ms-appx:///Assets/fighterjet1.png"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="275,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100" Source="ms-appx:///Assets/helicopter2.png" RenderTransformOrigin="0.18,0.93"/>
+        <Image x:Name="sonicjet" HorizontalAlignment="Left" Height="100" Margin="380,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100" Source="ms-appx:///Assets/sonicjet1.png"/>
 
         <VisualStateManager.VisualStateGroups>
 
