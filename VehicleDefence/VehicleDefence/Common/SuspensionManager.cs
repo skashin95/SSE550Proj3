@@ -10,6 +10,7 @@ using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel;
+using System.Diagnostics;
 
 namespace VehicleDefence.Common
 {
@@ -43,16 +44,22 @@ namespace VehicleDefence.Common
                 }
 
                 MemoryStream sessionData = new MemoryStream();
-                DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string,object>), _knownTypes);
+                DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string,object>), 
+                    _knownTypes);
                 serializer.WriteObject(sessionData, _sessionState);
 
-                StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(sessionStateFilename, CreationCollisionOption.ReplaceExisting);
+                StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(sessionStateFilename, 
+                    CreationCollisionOption.ReplaceExisting);
                 using(Stream fileStream = await file.OpenStreamForWriteAsync())
                 {
                     sessionData.Seek(0, SeekOrigin.Begin);
                     await sessionData.CopyToAsync(fileStream);
                     await fileStream.FlushAsync();
                 }
+            }
+            catch (SerializationException e)
+            {
+                Debug.WriteLine("SerializationException: " + e);             
             }
             catch (Exception e)
             {

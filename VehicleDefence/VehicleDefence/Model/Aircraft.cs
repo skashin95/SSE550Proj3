@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using System.Diagnostics;
 
 namespace VehicleDefence.Model
 {
@@ -15,8 +16,9 @@ namespace VehicleDefence.Model
 
         public AircraftType AircraftType { get; private set; }
         public int Score { get; private set; }
-        
-        public Aircraft (AircraftType aircraftType, Point location, int score) : base(location, Aircraft.AircraftSize)
+
+        public Aircraft(Point location, AircraftType aircraftType = AircraftType.FighterJet, int score = 20) 
+            : base(location, Aircraft.AircraftSize)
         {
             this.AircraftType = aircraftType;
             this.Score = score;
@@ -38,6 +40,11 @@ namespace VehicleDefence.Model
                         Location = new Point(Location.X, Location.Y + VerticalInterval);
                         break;
                 }       
+        }
+
+        ~Aircraft()
+        {
+            Debug.WriteLine("This aircraft of type {0} has been destroyed.", this.AircraftType);
         }
     }
 }

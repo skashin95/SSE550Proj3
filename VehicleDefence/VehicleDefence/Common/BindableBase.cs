@@ -13,6 +13,15 @@ namespace VehicleDefence.Common
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var eventHander = this.PropertyChanged;
+            if (eventHander != null)
+            {
+                eventHander(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] String propertyName = null)
         {
             if (object.Equals(storage, value)) return false;
@@ -22,13 +31,5 @@ namespace VehicleDefence.Common
             return true;
         }
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var eventHander = this.PropertyChanged;
-            if (eventHander != null)
-            {
-                eventHander(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 }

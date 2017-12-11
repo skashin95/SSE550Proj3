@@ -244,6 +244,7 @@ namespace VehicleDefence.Common
             }
 
             private Dictionary<K,V> _dictionary = new Dictionary<K,V>();
+
             public event MapChangedEventHandler<K,V> MapChanged;
 
             private void InvokeMapeChanged(CollectionChange change, K key)

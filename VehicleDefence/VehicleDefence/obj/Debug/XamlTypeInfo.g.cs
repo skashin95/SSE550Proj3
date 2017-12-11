@@ -721,5 +721,3 @@ namespace VehicleDefence.VehicleDefence_XamlTypeInfo
 }
 
 
-
-

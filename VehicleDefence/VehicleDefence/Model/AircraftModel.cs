@@ -89,7 +89,7 @@ namespace VehicleDefence.Model
                 OnShotMoved(shot, false);
             }
         }
-        
+            
         public void MovePlayer(Direction direction)
         {
             // Write after Player class is done
@@ -148,21 +148,22 @@ namespace VehicleDefence.Model
             for(int row = 0; row <= 5; row++)
                 for (int column = 0; column < 11; column++)
                 {
-                    Point location = new Point(column * Aircraft.AircraftSize.Width * 1.4, row * Aircraft.AircraftSize.Height * 1.4);
+                    Point location = new Point(column * Aircraft.AircraftSize.Width * 1.4,
+                        row * Aircraft.AircraftSize.Height * 1.4);
                     Aircraft aircraft;
                     switch (row)
                     {
                         case 0:
-                            aircraft = new Aircraft(AircraftType.SonicJet, location, 50);
+                            aircraft = new Aircraft(location, AircraftType.SonicJet, score: 50);
                             break;
                         case 1:
-                             aircraft = new Aircraft(AircraftType.CargoPlane, location, 40);
+                            aircraft = new Aircraft(location, AircraftType.CargoPlane, 40);
                             break;
-                        case 2: 
-                             aircraft = new Aircraft(AircraftType.Helicopter, location, 30);
+                        case 2:
+                            aircraft = new Aircraft(location, AircraftType.Helicopter,30);
                             break;
                         default:
-                             aircraft = new Aircraft(AircraftType.FighterJet, location, 10);
+                            aircraft = new Aircraft(location, score: 100);
                             break;                  
                      }
                     _aircrafts.Add(aircraft);
@@ -198,6 +199,8 @@ namespace VehicleDefence.Model
                 {
                     _playerShots.Remove(shot);
                     OnShotMoved(shot, true);
+                    // GC.Collect() not actually used in program. Just here for demonstration purposes
+                    // GC.Collect();
                 }
         }
 
@@ -227,12 +230,15 @@ namespace VehicleDefence.Model
                 Score += aircraft.Score;
                 _aircrafts.Remove(aircraft);
                 OnMilitaryVehicleChanged(aircraft, true);
+                // GC.Collect() not actually used in program. Just here for demonstration purposes
+                // GC.Collect();
             }
-
             foreach (Shot shot in shotsHit)
             {
                 _playerShots.Remove(shot);
                 OnShotMoved(shot, true);
+                // GC.Collect() not actually used in program. Just here for demonstration purposes
+                // GC.Collect();
             }
         }
             

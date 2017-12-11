@@ -122,6 +122,7 @@
     <Compile Include="Model\Direction.cs" />
     <Compile Include="Model\MilitaryVehicle.cs" />
     <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\Score.cs" />
     <Compile Include="Model\Shot.cs" />
     <Compile Include="Model\ShotMovedEventArgs.cs" />
     <Compile Include="Model\MilitaryVehicleChangedEventArgs.cs" />
